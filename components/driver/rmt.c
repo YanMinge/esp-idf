@@ -1080,7 +1080,8 @@ esp_err_t rmt_driver_install(rmt_channel_t channel, size_t rx_buf_size, int intr
 #if SOC_RMT_SUPPORT_RX_PINGPONG
     if (p_rmt_obj[channel]->rx_item_buf == NULL && rx_buf_size > 0) {
 #if !CONFIG_SPIRAM_USE_MALLOC
-        p_rmt_obj[channel]->rx_item_buf = calloc(1, rx_buf_size);
+        //p_rmt_obj[channel]->rx_item_buf = calloc(1, rx_buf_size);
+        p_rmt_obj[channel]->rx_item_buf = heap_caps_calloc(1, rx_buf_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
 #else
         if (!(p_rmt_obj[channel]->intr_alloc_flags & ESP_INTR_FLAG_IRAM)) {
             p_rmt_obj[channel]->rx_item_buf = calloc(1, rx_buf_size);
